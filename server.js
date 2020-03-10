@@ -1,9 +1,12 @@
 const express = require("express");
 const server = express();
-const { getAuth, createTamapotchi } = require("./controllers/api.controllers");
+const {
+  getAuthCode,
+  getAccessToken
+} = require("./controllers/api.controllers");
 
-server.get("/api/auth", getAuth);
+server.get("/", getAuthCode);
 
-server.get("/api/tamapotchi", createTamapotchi);
+server.get("/api/auth", getAccessToken);
 
 module.exports = server;
