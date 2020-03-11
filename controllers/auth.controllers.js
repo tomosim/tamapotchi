@@ -1,4 +1,7 @@
 const { client_id, redirect_uri } = require("../config.js");
+const { sendAuthCode } = require("../models/auth.models.js");
+let accessToken;
+let refreshToken;
 
 const getAuthCode = (req, res) => {
   res.redirect(
@@ -8,6 +11,12 @@ const getAuthCode = (req, res) => {
 
 const getAccessToken = (req, res) => {
   const { code } = req.query;
+  console.log(code);
+  sendAuthCode(code)
+    .then(({ access_token, refresh_token }) => {
+      // add tokens to db
+    })
+    .catch(err => console.log(err, "\n ^^^^^^^^^^ERROR^^^^^^^^^^"));
 };
 
 module.exports = { getAuthCode, getAccessToken };

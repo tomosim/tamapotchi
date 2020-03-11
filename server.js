@@ -3,7 +3,7 @@ const server = express();
 const {
   getAuthCode,
   getAccessToken
-} = require("./controllers/api.controllers");
+} = require("./controllers/auth.controllers.js");
 
 server.get("/", getAuthCode);
 
