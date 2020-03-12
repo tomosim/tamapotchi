@@ -2,7 +2,7 @@ const request = require("request-promise-native");
 const { client_id, redirect_uri, client_secret } = require("../config.js");
 const db = require("../firestore");
 
-const saveAuthCode = code => {
+const setAccessTokens = code => {
   return request
     .post("https://api.monzo.com/oauth2/token", {
       form: {
@@ -17,7 +17,8 @@ const saveAuthCode = code => {
       const { access_token, refresh_token, user_id, token_type } = JSON.parse(
         body
       );
-      db.collection("auth_tokens")
+      return db
+        .collection("tamapotchis")
         .doc(client_id)
         .set({
           access_token,
@@ -27,4 +28,11 @@ const saveAuthCode = code => {
     });
 };
 
-module.exports = { saveAuthCode };
+const getAccessTokens = () => {
+  const clientRef = db.collection("tamapotchis").doc(client_id);
+  return clientRef.get().then(doc => {
+    return doc.data();
+  });
+};
+
+module.exports = { setAccessTokens, getAccessTokens };
